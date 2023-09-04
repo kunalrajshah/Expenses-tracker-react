@@ -1,12 +1,12 @@
 import React, { useRef, useContext, useState } from "react";
 import LoginContext from "./LoginContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 const LoginPage = () => {
   const ctxt = useContext(LoginContext);
   const [islogin, setLogin] = useState(true);
-  const [isLoading,setLoading]=useState(false);
-  const navigate=useNavigate();
+  const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -29,6 +29,8 @@ const LoginPage = () => {
       const confirmPassword = confirmPasswordRef.current.value;
       if (Enteredpassword !== confirmPassword) {
         alert("Password is Not Matched !!");
+        setLoading(false);
+        return;
       }
     }
 
@@ -56,7 +58,7 @@ const LoginPage = () => {
       if (Response.ok) {
         const Data = await Response.json();
         ctxt.Login(Data.idToken);
-        navigate("/home")
+        navigate("/home");
       } else {
         const Data = await Response.json();
         let errMessage = "Auth Failed !!";
@@ -69,6 +71,7 @@ const LoginPage = () => {
       alert(err.message);
     }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -124,20 +127,29 @@ const LoginPage = () => {
                 </div>
               )}
             </div>
-
-            {!isLoading  && <div>
-              <button
-                type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                {islogin ? "Login" : "Create Account"}
-              </button>
-            </div>}
-            {isLoading && <p className="text-green-700 text-xl text-center">Sending Request ... </p>}
-
+            <div className="flex align-center justify-center text-sm">
+              {islogin && (
+                <button className=" text-blue-600"><Link to="/Forget Password?">Forget Password?</Link></button>
+              )}
+            </div>
+            {!isLoading && (
+              <div>
+                <button
+                  type="submit"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  {islogin ? "Login" : "Create Account"}
+                </button>
+              </div>
+            )}
+            {isLoading && (
+              <p className="text-green-700 text-xl text-center">
+                Sending Request ...{" "}
+              </p>
+            )}
           </form>
           <div className="text-center mt-2">
-             <button
+            <button
               className="text-blue-500 border-none hover:bg-white"
               onClick={toggletext}
             >

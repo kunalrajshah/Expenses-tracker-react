@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import LoginContext from "../Login/LoginContext";
+import Expenses from '../Expense form/Expenses';
 
 const Home = () => {
   const ctxt = useContext(LoginContext);
@@ -66,7 +67,8 @@ const Home = () => {
         >
           LogOut
         </button>
-      </div>
+      </div> 
+      <Expenses />
     </Fragment>
   );
 };

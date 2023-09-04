@@ -1,4 +1,5 @@
 import React, { Fragment, useRef, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faGithub,
@@ -154,7 +155,7 @@ const UpdatePage = () => {
               type="button"
               onClick={handleCancelClick}
             >
-              Cancel
+              <Link to="/home">Cancel</Link>
             </button>
           </div>
         </form>

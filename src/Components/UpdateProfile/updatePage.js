@@ -1,4 +1,10 @@
-import React, { Fragment, useRef, useContext, useEffect } from "react";
+import React, {
+  Fragment,
+  useRef,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,6 +14,12 @@ import {
 import LoginContext from "../Login/LoginContext";
 
 const UpdatePage = () => {
+  // Create state variables for Name and PhotoURL
+  const [Name, setName] = useState("Kunal Raj Shah");
+  const [PhotoURL, setPhotoURL] = useState(
+    "https://wallpapercave.com/wp/wp9321177.jpg"
+  );
+
   const ctxt = useContext(LoginContext);
   const fullNameRef = useRef(null);
   const profilePhotoURLRef = useRef(null);
@@ -26,7 +38,9 @@ const UpdatePage = () => {
         });
         if (Response.ok) {
           const Data = await Response.json();
-          // console.log(Data);
+          // console.log(Data.users[0]);
+          setName(Data.users[0].displayName);
+          setPhotoURL(Data.users[0].photoUrl);
         } else {
           const Data = await Response.json();
           let errMessage = "Auth Failed !!";
@@ -66,6 +80,10 @@ const UpdatePage = () => {
       });
       if (Response.ok) {
         const Data = await Response.json();
+        setName(Data.displayName);
+        setPhotoURL(Data.photoUrl);
+        fullNameRef.current.value = "";
+        profilePhotoURLRef.current.value = "";
         // console.log("updated Data",Data);
       } else {
         const Data = await Response.json();
@@ -98,6 +116,16 @@ const UpdatePage = () => {
           </i>
         </p>
       </div>
+      {/* Display name and photo */}
+      <div className="md:fixed md:top-10 right-0 md:m-4 p-4 bg-white rounded-lg shadow-lg">
+        <img
+          src={PhotoURL}
+          alt="dp"
+          className="w-16 h-16 md:w-24 md:h-24 rounded-full mx-auto mb-2"
+        />
+        <h2 className="text-center text-xs md:text-sm">{Name}</h2>
+      </div>
+
       <div className="w-full max-w-lg mx-auto border-b-2 pb-4 mt-10 md:mt-40">
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">

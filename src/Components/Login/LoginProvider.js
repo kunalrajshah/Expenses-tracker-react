@@ -9,7 +9,8 @@ const LoginProvider = (props) => {
     localStorage.setItem('token',token)
   }
   const logoutHandler=()=>{
-    setToken(null)
+    setToken(null);
+    localStorage.removeItem('token')
   }
   const userLoggedIn=!!token;
   const contextValue={

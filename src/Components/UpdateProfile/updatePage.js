@@ -11,6 +11,7 @@ const UpdatePage = () => {
   const fullNameRef = useRef(null);
   const profilePhotoURLRef = useRef(null);
   const apiKey = process.env.REACT_APP_API_KEY;
+  // Get user Data
   useEffect(() => {
     const fetchData = async () => {
       let URL = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiKey}`;
@@ -24,7 +25,7 @@ const UpdatePage = () => {
         });
         if (Response.ok) {
           const Data = await Response.json();
-          console.log(Data);
+          // console.log(Data);
         } else {
           const Data = await Response.json();
           let errMessage = "Auth Failed !!";
@@ -50,7 +51,6 @@ const UpdatePage = () => {
       idToken: ctxt.token,
       displayName: fullName,
       photoUrl: profilePhotoURL,
-      // deleteAttribute: ["DISPLAY_NAME", "PHOTO_URL"],
       returnSecureToken: true,
     };
     let URL = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiKey}`;
@@ -65,7 +65,7 @@ const UpdatePage = () => {
       });
       if (Response.ok) {
         const Data = await Response.json();
-        console.log("updated Data",Data);
+        // console.log("updated Data",Data);
       } else {
         const Data = await Response.json();
         let errMessage = "Auth Failed !!";

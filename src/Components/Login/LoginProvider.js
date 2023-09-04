@@ -2,9 +2,11 @@ import React,{useState} from 'react';
 import LoginContext from './LoginContext';
 
 const LoginProvider = (props) => {
-  const [token,setToken]=useState(null);
+  const initialToken=localStorage.getItem("token");
+  const [token,setToken]=useState(initialToken);
   const loginHandler=(token)=>{
-    setToken(token)
+    setToken(token);
+    localStorage.setItem('token',token)
   }
   const logoutHandler=()=>{
     setToken(null)

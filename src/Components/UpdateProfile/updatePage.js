@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useContext } from "react";
+import React, { Fragment, useRef, useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faGithub,
@@ -11,6 +11,36 @@ const UpdatePage = () => {
   const fullNameRef = useRef(null);
   const profilePhotoURLRef = useRef(null);
   const apiKey = process.env.REACT_APP_API_KEY;
+  useEffect(() => {
+    const fetchData = async () => {
+      let URL = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiKey}`;
+      try {
+        const Response = await fetch(URL, {
+          method: "POST",
+          body: JSON.stringify({ idToken: ctxt.token }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (Response.ok) {
+          const Data = await Response.json();
+          console.log(Data);
+        } else {
+          const Data = await Response.json();
+          let errMessage = "Auth Failed !!";
+          if (Data && Data.error && Data.error.message) {
+            errMessage = Data.error.message;
+          }
+          throw new Error(errMessage);
+        }
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    // Call the fetchData function immediately
+    fetchData();
+  }, []);
 
   const handleUpdateClick = async (event) => {
     event.preventDefault();
@@ -35,7 +65,7 @@ const UpdatePage = () => {
       });
       if (Response.ok) {
         const Data = await Response.json();
-        console.log(Data);
+        console.log("updated Data",Data);
       } else {
         const Data = await Response.json();
         let errMessage = "Auth Failed !!";
